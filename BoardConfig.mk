@@ -70,3 +70,6 @@ TW_EXTERNAL_STORAGE_MOUNT_POINT := "external_sd"
 
 TW_BRIGHTNESS_PATH := /sys/class/backlight/pwm-backlight/brightness
 TW_MAX_BRIGHTNESS := 255
+
+# include proprietary boardconfig
+-include vendor/nvidia/shieldtablet/BoardConfigVendor.mk
