@@ -142,6 +142,9 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     libnetcmdiface
 
+# Enable Widevine drm
+PRODUCT_PROPERTY_OVERRIDES += drm.service.enabled=true
+
 PRODUCT_GMS_CLIENTID_BASE := android-nvidia
 
 # Device uses high-density artwork where available
