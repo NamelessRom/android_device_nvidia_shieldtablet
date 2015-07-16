@@ -20,6 +20,9 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/generic_no_telephony.mk)
 # Inherit some common Nameless stuff
 $(call inherit-product, vendor/nameless/config/common.mk)
 
+# Overlay
+DEVICE_PACKAGE_OVERLAYS += device/nvidia/shieldtablet/overlay
+
 PRODUCT_CHARACTERISTICS := tablet
 
 TARGET_SCREEN_HEIGHT := 1920
