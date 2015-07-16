@@ -1,0 +1,8 @@
+[
+  {
+    "remote": "github",
+    "repository": "NamelessRom/android_kernel_nvidia_shieldtablet",
+    "target_path": "kernel/nvidia/shieldtablet",
+    "revision": "n-2.1"
+  }
+]
