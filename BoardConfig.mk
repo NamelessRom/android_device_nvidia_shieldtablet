@@ -32,7 +32,7 @@ TARGET_NO_RADIOIMAGE  := true
 TARGET_KERNEL_ARCH   := arm
 TARGET_KERNEL_SOURCE := kernel/nvidia/shieldtablet
 TARGET_KERNEL_CONFIG := custom_shieldtablet_defconfig
-BOARD_KERNEL_CMDLINE := androidboot.selinux=permissive
+BOARD_KERNEL_CMDLINE := console=ttyS0,115200n8 no_console_suspend=1 watchdog=disable androidboot.selinux=permissive
 
 BOARD_CUSTOM_BOOTIMG_MK := device/nvidia/shieldtablet/mkbootimg.mk
 

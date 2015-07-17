@@ -27,8 +27,9 @@ $(INSTALLED_RECOVERYIMAGE_TARGET): $(MKBOOTIMG) \
 		$(MINIGZIP)
 	@echo -e ${CL_CYN}"----- Copying configuration files ------"${CL_RST}
 	$(hide) cp $(LOCAL_PATH)/rootdir/recovery/twrp.fstab $(TARGET_RECOVERY_ROOT_OUT)/etc/twrp.fstab
-	$(hide) cp $(LOCAL_PATH)/rootdir/recovery/recovery_init.rc $(TARGET_RECOVERY_ROOT_OUT)/recovery_init.rc
-	$(hide) cp $(LOCAL_PATH)/rootdir/recovery/init.recovery.tn8.rc $(TARGET_RECOVERY_ROOT_OUT)/init.recovery.tn8.rc
+	$(hide) cp $(LOCAL_PATH)/rootdir/recovery/recovery_init.rc $(TARGET_RECOVERY_ROOT_OUT)/init.rc
+	$(hide) cp $(LOCAL_PATH)/rootdir/etc/init.ray_touch.rc $(TARGET_RECOVERY_ROOT_OUT)
+	$(hide) cp $(LOCAL_PATH)/rootdir/etc/init.recovery.tn8.rc $(TARGET_RECOVERY_ROOT_OUT)
 	@echo -e ${CL_CYN}"----- Copying touchscreen files ------"${CL_RST}
 	$(hide) mkdir -p $(TARGET_RECOVERY_ROOT_OUT)/sbin/touchscreen
 	$(hide) cp $(LOCAL_PATH)/touchscreen/linker $(TARGET_RECOVERY_ROOT_OUT)/sbin/touchscreen/linker

@@ -33,6 +33,8 @@ PRODUCT_PACKAGES += \
     fstab.tn8 \
     init.cal.rc \
     init.hdcp.rc \
+    init.ray_touch.rc \
+    init.recovery.tn8.rc \
     init.t124.rc \
     init.tegra.rc \
     init.tegra_emmc.rc \
