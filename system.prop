@@ -5,6 +5,9 @@ ap.interface=wlan0
 persist.tegra.nvmmlite=1
 persist.wlan.ti.calibrated=0
 
+ro.sf.lcd_density=320
+ro.zygote.disable_gl_preload=true
+
 #NFC
 debug.nfc.fw_download=false
 debug.nfc.se=false
