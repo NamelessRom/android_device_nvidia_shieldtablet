@@ -15,7 +15,7 @@
 #
 
 # Inherit awesome Android stuff
-$(call inherit-product, $(SRC_TARGET_DIR)/product/generic_no_telephony.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)
 
 # Inherit some common Nameless stuff
 $(call inherit-product, vendor/nameless/config/common.mk)
@@ -32,22 +32,25 @@ TARGET_SCREEN_WIDTH := 1200
 PRODUCT_PACKAGES += \
     fstab.tn8 \
     init.cal.rc \
+    init.comms.rc \
     init.hdcp.rc \
+    init.icera.rc \
     init.ray_touch.rc \
-    init.recovery.tn8.rc \
     init.t124.rc \
     init.tegra.rc \
-    init.tegra_emmc.rc \
     init.tlk.rc \
     init.tn8.rc \
     init.tn8.usb.rc \
+    init.tn8_common.rc \
+    init.tn8_emmc.rc \
+    init.ussrd.rc \
     power.tn8.rc \
     ueventd.tn8.rc
 
 # Audio
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/audio/audio_policy.conf:system/etc/audio_policy.conf \
     $(LOCAL_PATH)/audio/audioConfig_qvoice_icera_pc400.xml:system/etc/audioConfig_qvoice_icera_pc400.xml \
+    $(LOCAL_PATH)/audio/audio_policy.conf:system/etc/audio_policy.conf \
     $(LOCAL_PATH)/audio/nvaudio_conf.xml:system/etc/nvaudio_conf.xml \
     $(LOCAL_PATH)/audio/nvaudio_fx.xml:system/etc/nvaudio_fx.xml
 
@@ -55,7 +58,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     audio.a2dp.default \
     audio.usb.default \
+    audio.r_submix.default \
     libaudio-resampler \
+    libaudiospdif \
+    libtinycompress \
     tinycap \
     tinymix \
     tinyplay \
@@ -74,6 +80,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     charger \
     charger_res_images
+
+# Filesystem management tools
+PRODUCT_PACKAGES += \
+    setup_fs
 
 # GPS
 PRODUCT_COPY_FILES += \
@@ -105,44 +115,59 @@ PRODUCT_COPY_FILES += \
 
 # Permissions
 PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/tablet_core_hardware.xml:system/etc/permissions/tablet_core_hardware.xml \
-    frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
-    frameworks/native/data/etc/android.hardware.camera.xml:system/etc/permissions/android.hardware.camera.xml \
+    frameworks/native/data/etc/android.hardware.bluetooth_le.xml:system/etc/permissions/android.hardware.bluetooth_le.xml \
+    frameworks/native/data/etc/android.hardware.camera.autofocus.xml:system/etc/permissions/android.hardware.camera.autofocus.xml \
     frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:system/etc/permissions/android.hardware.camera.flash-autofocus.xml \
     frameworks/native/data/etc/android.hardware.camera.front.xml:system/etc/permissions/android.hardware.camera.front.xml \
+    frameworks/native/data/etc/android.hardware.camera.xml:system/etc/permissions/android.hardware.camera.xml \
+    frameworks/native/data/etc/android.hardware.ethernet.xml:system/etc/permissions/android.hardware.ethernet.xml \
     frameworks/native/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
+    frameworks/native/data/etc/android.hardware.nfc.xml:system/etc/permissions/android.hardware.nfc.xml \
+    frameworks/native/data/etc/android.hardware.opengles.aep.xml:system/etc/permissions/android.hardware.opengles.aep.xml \
     frameworks/native/data/etc/android.hardware.sensor.accelerometer.xml:system/etc/permissions/android.hardware.sensor.accelerometer.xml \
     frameworks/native/data/etc/android.hardware.sensor.compass.xml:system/etc/permissions/android.hardware.sensor.compass.xml \
     frameworks/native/data/etc/android.hardware.sensor.gyroscope.xml:system/etc/permissions/android.hardware.sensor.gyroscope.xml \
     frameworks/native/data/etc/android.hardware.sensor.light.xml:system/etc/permissions/android.hardware.sensor.light.xml \
-    frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
-    frameworks/native/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml \
-    frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
+    frameworks/native/data/etc/android.hardware.sensor.proximity.xml:system/etc/permissions/android.hardware.sensor.proximity.xml \
+    frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml \
+    frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
     frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
-    frameworks/native/data/etc/android.hardware.bluetooth_le.xml:system/etc/permissions/android.hardware.bluetooth_le.xml
+    frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
+    frameworks/native/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml \
+    frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
+    frameworks/native/data/etc/android.software.sip.xml:system/etc/permissions/android.software.sip.xml \
+    frameworks/native/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
+    frameworks/native/data/etc/tablet_core_hardware.xml:system/etc/permissions/tablet_core_hardware.xml
 
 # Permissions NVIDIA
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/permissions/com.nvidia.feature.xml:system/etc/permissions/com.nvidia.feature.xml \
     $(LOCAL_PATH)/permissions/com.nvidia.nvsi.xml:system/etc/permissions/com.nvidia.nvsi.xml
 
+# RIL
+PRODUCT_PACKAGES += \
+    rild
+
 # USB
 PRODUCT_PACKAGES += \
     com.android.future.usb.accessory
 
+# Set default USB interface
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+    persist.sys.usb.config=mtp
+
+# Enable USB OTG interface
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.sys.isUsbOtgEnabled=1
+
 # Wifi
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/wifi/bcm4335/fw_bcmdhd.bin:system/vendor/firmware/bcm4335/fw_bcmdhd.bin \
-    $(LOCAL_PATH)/wifi/bcm43241/fw_bcmdhd.bin:system/vendor/firmware/bcm43241/fw_bcmdhd.bin \
-    $(LOCAL_PATH)/wifi/bcm43341/fw_bcmdhd.bin:system/vendor/firmware/bcm43341/fw_bcmdhd.bin \
-    $(LOCAL_PATH)/wifi/bcm43341/fw_bcmdhd_a0.bin:system/vendor/firmware/bcm43341/fw_bcmdhd_a0.bin \
-    $(LOCAL_PATH)/wifi/dhcpcd.conf:system/etc/dhcpcd/dhcpcd.conf \
-    $(LOCAL_PATH)/wifi/nvram_4335.txt:system/etc/nvram_4335.txt \
-    $(LOCAL_PATH)/wifi/nvram_43241.txt:system/etc/nvram_43241.txt \
-    $(LOCAL_PATH)/wifi/nvram_rev2.txt:system/etc/nvram_rev2.txt \
-    $(LOCAL_PATH)/wifi/nvram_rev3.txt:system/etc/nvram_rev3.txt \
-    $(LOCAL_PATH)/wifi/nvram_rev4.txt:system/etc/nvram_rev4.txt \
-    $(LOCAL_PATH)/wifi/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf
+    $(LOCAL_PATH)/wifi/dhcpcd.conf:system/etc/dhcpcd/dhcpcd.conf
+
+PRODUCT_PACKAGES += \
+    hostapd \
+    wpa_supplicant \
+    wpa_supplicant.conf
 
 PRODUCT_PACKAGES += \
     libnetcmdiface
@@ -153,8 +178,8 @@ PRODUCT_PROPERTY_OVERRIDES += drm.service.enabled=true
 PRODUCT_GMS_CLIENTID_BASE := android-nvidia
 
 # Device uses high-density artwork where available
-PRODUCT_AAPT_CONFIG := xlarge large
-PRODUCT_AAPT_PREF_CONFIG := xhdpi
+PRODUCT_AAPT_CONFIG += xlarge large
+#PRODUCT_AAPT_PREF_CONFIG := xhdpi
 
 PRODUCT_NAME := nameless_shieldtablet
 PRODUCT_DEVICE := shieldtablet
